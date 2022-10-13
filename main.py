@@ -5,15 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-# def print_hi(name):
-
-
-# Статья:
-# - Облегчаем себе жизнь с помощью BeautifulSoup4
+# Ссылки, которые мне были интересны:
+# - Статья "Облегчаем себе жизнь с помощью BeautifulSoup4"
 #   https://habr.com/ru/post/544828/
 # - Документация Beautiful Soup
 #   http://bs4ru.geekwriter.ru/bs4ru.html
@@ -66,7 +59,6 @@ from bs4 import BeautifulSoup
 </div>
 """
 
-
 """
 Переход между страницами находится в списке:
 <ul class="pagination pagination-sm"> ... </ul>
@@ -78,15 +70,15 @@ from bs4 import BeautifulSoup
 элементы могут меняться.
 Если загружена страница N, то:
 1. Символ "←" - связан со ссылкой на предыдущую страницу: 
-   <a href="/feed/?q=flask&page=(N-1))">
+   <a href="/feed/?q=flask&page=(N-1)">
 2. Символ "→" - связан со ссылкой на следующую страницу: 
-   <a href="/feed/?q=flask&page=(N+1))">
+   <a href="/feed/?q=flask&page=(N+1)">
 Если предыдущая /следующая страница отсутствует (когда 
 находимся на первой/последней странице), то соответствующие 
 ссылки отсутствуют, но символы рисуются.
 
 
-Поэтому, чтобы получить ссылку на следующую страницу, то делаем так:
+Поэтому, чтобы получить ссылку на следующую страницу, делаем так:
 1. Загружаем страницу. 
 2. Ищем тэг: <ul class="pagination pagination-sm">
 3. Ищем все тэги <li> внутри найденного списка 
@@ -130,7 +122,7 @@ from bs4 import BeautifulSoup
           3
         </a>
       </li>
-    ......................................................................................
+    ........................тут удалён текст для уменьшения объёма........................
        <li>
         <a href="/feed/?q=flask&page=10">
           10
@@ -191,7 +183,7 @@ from bs4 import BeautifulSoup
       </li>
       <li>
      <li>
-    ......................................................................................
+    ........................тут удалён текст для уменьшения объёма........................
        <li>
         <a href="/feed/?q=flask&page=10">
           10
@@ -257,7 +249,7 @@ from bs4 import BeautifulSoup
           11
         </a>
       </li>
-    ......................................................................................
+    ........................тут удалён текст для уменьшения объёма........................
       <li>
         <a href="/feed/?q=flask&page=18">
           18
@@ -283,12 +275,14 @@ if __name__ == '__main__':
     # URL = f'{DOMAIN}/feed'
 
     page_url = '/feed'
-    # Открываем файл на заппись - чтобы очистить
+    file_name = 'data.json'
+    
+    # Открываем файл на запись - чтобы очистить
     # содержимое, если что-то в файле было.
-    with open('data.json', 'w', encoding='utf-8') as outfile:
+    with open(file_name, 'w', encoding='utf-8') as outfile:
         pass
 
-    # Варианты значений:
+    # Варианты значений (параметры), которые могут указываться в URL после символа "?":
     # 1. q=  - указывается поисковая строка
     #    Примеры:
     #    q=flask+django - ищем слова: flask django
@@ -437,7 +431,7 @@ if __name__ == '__main__':
             #    ['',
             #     'PyTorch\xa0— среда глубокого обучения, которая была принята такими технологическими гигантами, как Tesla, OpenAI и Microsoft для ключевых исследовательских и производственных рабочих нагрузок.',
             #     '']
-            article_announcement  = ''.join([item.get_text() for item in tmp_tag])
+            article_announcement = ''.join([item.get_text() for item in tmp_tag])
             # print(article_announcement)
             result['article_announcement'] = article_announcement
             pprint.pprint(result)
@@ -490,5 +484,5 @@ if __name__ == '__main__':
         # Если же значение по умолчанию опущено, метод вернет None.
         page_url = page_last.a.get('href')
 
-    with open('data.json', 'a', encoding='utf-8') as outfile:
+    with open(file_name, 'a', encoding='utf-8') as outfile:
         json.dump(result_dict, outfile, ensure_ascii=False)
